@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 class Routes{
   static String root = "/";
   static String login = "/login/:user/:psw";
+  static String home = '/home';
 
   static void configureRoutes(Router router){
     router.notFoundHandler = new Handler(handlerFunc: (BuildContext context,Map<String,List<String>> params){
       return LoginPage('','');
     });
 
-//    router.define(home, handler:homeHandle);
+    router.define(home, handler:homeHandle);
     router.define(login, handler: loginHandle);
 //    router.define(search, handler: searchHandle);
 //    router.define(searchResult, handler: searchResultHandle);

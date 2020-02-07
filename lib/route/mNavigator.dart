@@ -26,10 +26,10 @@ class NavigatorUtil{
   static void goLoginPage(BuildContext context,{clearStack:true,username:'',password:''}) {
     _navigateTo(context, Routes.login.replaceAll(':user', Uri.encodeComponent(username)).replaceAll(':psw', Uri.encodeComponent(password)), clearStack: clearStack);
   }
-//
-//  static void goHomePage(BuildContext context){
-//    _navigateTo(context, Routes.home,clearStack: true);
-//  }
+
+  static void goHomePage(BuildContext context){
+    _navigateTo(context, Routes.home,clearStack: true);
+  }
 //
 //  static void goSearchPage(BuildContext context){
 //    _navigateTo(context, Routes.search,clearStack: false);

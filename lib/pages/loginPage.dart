@@ -4,6 +4,7 @@ import 'package:chat_client/Utils/SharedPreferencesUtil.dart';
 import 'package:chat_client/Utils/ToastUtil.dart';
 import 'package:chat_client/application.dart';
 import 'package:chat_client/model/User.dart';
+import 'package:chat_client/route/mNavigator.dart';
 import 'package:chat_client/socket/socketUtil.dart';
 import 'package:flutter/material.dart';
 
@@ -42,8 +43,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
         data['user']['password'] = _pwdController.text;
         Application.user = User.fromJson(data['user']);
         print(Application.user);
-
         SharedPreferencesUtil.setData(jsonEncode(Application.user.toJson()), 'user');
+        NavigatorUtil.goHomePage(context);
       }else{
         //失败
         ToastUtil.ShowShortToast(data['msg']??'');

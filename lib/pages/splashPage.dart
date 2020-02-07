@@ -24,6 +24,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
       if(data['result']){
         //登陆成功
         print("登录成功");
+        NavigatorUtil.goHomePage(context);
       }else{
         //登录失败
         NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
