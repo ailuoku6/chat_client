@@ -28,6 +28,12 @@ class Message{
 //    return data;
 //  }
 
+@override
+  String toString() {
+    // TODO: implement toString
+    return 'from:'+from.toString()+"say:"+msg+"date:"+time.toIso8601String();
+  }
+
 
 
 }

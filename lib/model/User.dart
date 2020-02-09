@@ -21,7 +21,7 @@ class User{
   @override
   String toString() {
     // TODO: implement toString
-    return username +":"+password;
+    return (id??'').toString()+":"+(username??'')+":"+(nickname??'') +":"+(password??'');
   }
 
 }

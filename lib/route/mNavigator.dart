@@ -16,7 +16,8 @@ class NavigatorUtil{
         clearStack: clearStack,
         transitionDuration: transitionDuration,
         transitionBuilder: transitionsBuilder,
-        transition: TransitionType.material);
+        transition: TransitionType.material,
+    );
   }
 
   static void Back(BuildContext context){

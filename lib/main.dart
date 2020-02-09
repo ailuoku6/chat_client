@@ -1,6 +1,7 @@
 import 'package:chat_client/application.dart';
 import 'package:chat_client/pages/splashPage.dart';
 import 'package:chat_client/route/routes.dart';
+import 'package:chat_client/socket/socketUtil.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ void main(){
   Router router = Router();
   Routes.configureRoutes(router);
   Application.router = router;
+  socketUtil.initSocket();
 
   runApp(MyApp());
 }
