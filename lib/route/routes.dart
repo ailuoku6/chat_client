@@ -7,6 +7,7 @@ class Routes{
   static String root = "/";
   static String login = "/login/:user/:psw";
   static String home = '/home';
+  static String chat = '/chat/:id';
 
   static void configureRoutes(Router router){
     router.notFoundHandler = new Handler(handlerFunc: (BuildContext context,Map<String,List<String>> params){
@@ -15,6 +16,7 @@ class Routes{
 
     router.define(home, handler:homeHandle);
     router.define(login, handler: loginHandle);
+    router.define(chat, handler: chatHandle);
 //    router.define(search, handler: searchHandle);
 //    router.define(searchResult, handler: searchResultHandle);
 //    router.define(noticeDetail, handler: noticeDetailHandle);

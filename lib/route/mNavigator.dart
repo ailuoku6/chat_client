@@ -31,6 +31,10 @@ class NavigatorUtil{
   static void goHomePage(BuildContext context){
     _navigateTo(context, Routes.home,clearStack: true);
   }
+  static void goChatPage(BuildContext context,{clearStack:false,id:-1}){
+    if(id<0) return;
+    _navigateTo(context, Routes.chat.replaceAll(':id', id.toString()),clearStack: clearStack);
+  }
 //
 //  static void goSearchPage(BuildContext context){
 //    _navigateTo(context, Routes.search,clearStack: false);

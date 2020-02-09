@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_client/pages/loginPage.dart';
 import 'package:chat_client/pages/HomePage.dart';
+import 'package:chat_client/pages/chatPage.dart';
 
 var homeHandle = new Handler(handlerFunc: (BuildContext context,Map<String,List<Object>> params){
   return HomePage();
@@ -9,6 +10,10 @@ var homeHandle = new Handler(handlerFunc: (BuildContext context,Map<String,List<
 
 var loginHandle = new Handler(handlerFunc: (BuildContext context,Map<String,List<Object>> params){
   return LoginPage(Uri.decodeComponent(params['user'][0]),Uri.decodeComponent(params['psw'][0]));
+});
+
+var chatHandle = new Handler(handlerFunc: (BuildContext context,Map<String,List<Object>> params){
+  return chatPage(int.parse(params['id'][0]));
 });
 
 //

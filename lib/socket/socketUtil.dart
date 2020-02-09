@@ -37,8 +37,8 @@ class socketUtil{
       }
 
       Application.contacts = contacts;
-
-      Application.subject.add(Application.contacts);
+//      Application.subject.add(Application.contacts);
+      Application.reflashSubject();
 
       print(onlineUsers);
       print(contacts.values.toList());
@@ -61,7 +61,8 @@ class socketUtil{
 
       Application.contacts = contacts;
 
-      Application.subject.add(Application.contacts);
+//      Application.subject.add(Application.contacts);
+      Application.reflashSubject();
 
 //      setState(() {
 //        contacts;
@@ -77,7 +78,8 @@ class socketUtil{
       }
 
       Application.contacts = contacts;
-      Application.subject.add(Application.contacts);
+//      Application.subject.add(Application.contacts);
+      Application.reflashSubject();
 //      setState(() {
 //        contacts;
 //      });
@@ -92,7 +94,8 @@ class socketUtil{
         contacts[msg.from].msgs.add(msg);
       }
       Application.contacts = contacts;
-      Application.subject.add(Application.contacts);
+      Application.reflashSubject();
+//      Application.subject.add(Application.contacts);
 //      setState(() {
 //        contacts;
 //      });
@@ -118,7 +121,8 @@ class socketUtil{
         }
 
         Application.contacts = contacts;
-        Application.subject.add(Application.contacts);
+        Application.reflashSubject();
+//        Application.subject.add(Application.contacts);
 
 //        setState(() {
 //          contacts;

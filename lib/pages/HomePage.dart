@@ -1,6 +1,7 @@
 import 'package:chat_client/application.dart';
 import 'package:chat_client/model/Contact.dart';
 import 'package:chat_client/model/User.dart';
+import 'package:chat_client/route/mNavigator.dart';
 import 'package:chat_client/socket/socketUtil.dart';
 import 'package:chat_client/widget/Contact.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     // TODO: implement initState
     super.initState();
     Application.subject.stream.listen((data){
-      setState(() {
-        contacts = data;
-      });
+      if(mounted){
+        setState(() {
+          contacts = data;
+        });
+      }
     });
     _setSocket();
   }
@@ -139,7 +142,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 lastMsg: lastMessage!=null?lastMessage.msg:'',
                 date: lastMessage!=null?lastMessage.time.toIso8601String():'',
                 online: contact.online,
-                onPress: (){},
+                onPress: (){
+                  NavigatorUtil.goChatPage(context,id: contact.user.id);
+                },
               );
             },
           ),

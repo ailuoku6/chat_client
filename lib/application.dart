@@ -8,4 +8,8 @@ class Application{
   static User user = null;
   static Map<int,Contact> contacts = new Map();
   static PublishSubject subject = new PublishSubject<Map<int,Contact>>();
+
+  static void reflashSubject(){
+    subject.add(contacts);
+  }
 }
