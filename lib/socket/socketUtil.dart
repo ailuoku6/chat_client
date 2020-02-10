@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:chat_client/application.dart';
 import 'package:chat_client/model/Contact.dart';
 import 'package:chat_client/model/Message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:chat_client/model/User.dart';
 
+
+final String ADDRESS = Platform.isAndroid?'http://10.0.2.2:3000':'http://127.0.0.1:3000';
+
 class socketUtil{
-  static IO.Socket _socket = IO.io('http://127.0.0.1:3000',<String,dynamic>{
+  static IO.Socket _socket = IO.io(ADDRESS,<String,dynamic>{
     'transports': ['websocket'],
     'extraHeaders': {'foo': 'bar'},
     'forceNew': true,
@@ -13,7 +18,7 @@ class socketUtil{
 
   static IO.Socket getSocket(){
     if(_socket==null){
-      _socket = IO.io('http://127.0.0.1:3000',<String,dynamic>{
+      _socket = IO.io(ADDRESS,<String,dynamic>{
         'transports': ['websocket'],
         'extraHeaders': {'foo': 'bar'},
         'forceNew': true,
@@ -128,6 +133,18 @@ class socketUtil{
 //          contacts;
 //        });
       }
+    });
+
+    getSocket().on("loginResult", (data){
+//      if(data['result']){
+//        //登陆成功
+//        print("登录成功");
+//        NavigatorUtil.goHomePage(context);
+//      }else{
+//        //登录失败
+//        NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
+//      }
+      Application.subject1.add(data);
     });
   }
 

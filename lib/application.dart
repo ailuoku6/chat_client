@@ -8,6 +8,7 @@ class Application{
   static User user = null;
   static Map<int,Contact> contacts = new Map();
   static PublishSubject subject = new PublishSubject<Map<int,Contact>>();
+  static PublishSubject subject1 = new PublishSubject<Map<String,dynamic>>();
 
   static void reflashSubject(){
     subject.add(contacts);

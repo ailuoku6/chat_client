@@ -13,25 +13,30 @@ class DialogueLeft extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           CircleAvatar(
               backgroundColor: avatarColor,
               child: Text(nickname[0]??'?',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300,color: Colors.white))
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                Text(nickname,style: TextStyle(fontSize: 12),),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  color: avatarColor,
-                  child: Text(msg,style: TextStyle(fontSize: 16,backgroundColor: avatarColor,color: Colors.white),),
-                ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(nickname,style: TextStyle(fontSize: 12),),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    color: avatarColor,
+                    child: Text(msg,style: TextStyle(fontSize: 16,backgroundColor: avatarColor,color: Colors.white),softWrap: true,),
+                  ),
 
-              ],
+                ],
+              ),
             ),
-          )
+          ),
+
         ],
       ),
     );

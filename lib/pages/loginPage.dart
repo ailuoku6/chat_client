@@ -35,19 +35,38 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
     _unameController.text = widget.username;
     _pwdController.text = widget.password;
 
-    socketUtil.getSocket().on('loginResult', (data){
-      print(data.runtimeType);
-      if(data['result']){
-        //登陆成功
-        ToastUtil.ShowShortToast('登录成功');
-        data['user']['password'] = _pwdController.text;
-        Application.user = User.fromJson(data['user']);
-        print(Application.user);
-        SharedPreferencesUtil.setData(jsonEncode(Application.user.toJson()), 'user');
-        NavigatorUtil.goHomePage(context);
-      }else{
-        //失败
-        ToastUtil.ShowShortToast(data['msg']??'');
+//    socketUtil.getSocket().on('loginResult', (data){
+//      print(data.runtimeType);
+//      if(mounted&&context!=null){
+//        if(data['result']){
+//          //登陆成功
+//          ToastUtil.ShowShortToast('登录成功');
+//          data['user']['password'] = _pwdController.text;
+//          Application.user = User.fromJson(data['user']);
+//          print(Application.user);
+//          SharedPreferencesUtil.setData(jsonEncode(Application.user.toJson()), 'user');
+//          NavigatorUtil.goHomePage(context);
+//        }else{
+//          //失败
+//          ToastUtil.ShowShortToast(data['msg']??'');
+//        }
+//      }
+//    });
+
+    Application.subject1.stream.listen((data){
+      if(mounted&&context!=null){
+        if(data['result']){
+          //登陆成功
+          ToastUtil.ShowShortToast('登录成功');
+          data['user']['password'] = _pwdController.text;
+          Application.user = User.fromJson(data['user']);
+          print(Application.user);
+          SharedPreferencesUtil.setData(jsonEncode(Application.user.toJson()), 'user');
+          NavigatorUtil.goHomePage(context);
+        }else{
+          //失败
+          ToastUtil.ShowShortToast(data['msg']??'');
+        }
       }
     });
   }

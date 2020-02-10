@@ -20,14 +20,28 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
   void initState() {
     // TODO: implement initState
     super.initState();
-    socketUtil.getSocket().on("loginResult", (data){
-      if(data['result']){
-        //登陆成功
-        print("登录成功");
-        NavigatorUtil.goHomePage(context);
-      }else{
-        //登录失败
-        NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
+//    socketUtil.getSocket().on("loginResult", (data){
+//      if(mounted&&context!=null){
+//        if(data['result']){
+//          //登陆成功
+//          print("登录成功");
+//          NavigatorUtil.goHomePage(context);
+//        }else{
+//          //登录失败
+//          NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
+//        }
+//      }
+//    });
+    Application.subject1.stream.listen((data){
+      if(mounted&&context!=null){
+        if(data['result']){
+          //登陆成功
+          print("登录成功");
+          NavigatorUtil.goHomePage(context);
+        }else{
+          //登录失败
+          NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
+        }
       }
     });
     Future.delayed(Duration(milliseconds: 1000), () {
