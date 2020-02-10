@@ -20,6 +20,7 @@ class DialogueLeft extends StatelessWidget {
               child: Text(nickname[0]??'?',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300,color: Colors.white))
           ),
           Expanded(
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -35,6 +36,10 @@ class DialogueLeft extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(),
           ),
 
         ],

@@ -15,8 +15,12 @@ class DialogueRight extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
           Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+          Expanded(
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

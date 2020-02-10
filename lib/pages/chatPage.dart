@@ -25,17 +25,33 @@ class _chatPageState extends State<chatPage> {
   TextEditingController _textEditingController = new TextEditingController();
   final double bottomSheetHigh = 80.0;
 
+  int _startIndex = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    //把相应信息标为已读
     Application.subject.stream.listen((data){
 
       if(mounted){
         print("刷新");
+        _messages = data[widget._id].msgs;
+        _contacts = data;
+
+        List<Message> unreadMsgs = new List();
+        for(int i = _startIndex;i<_messages.length;i++){
+          if(_messages[i].isread==0&&_messages[i].from==widget._id)
+            unreadMsgs.add(_messages[i]);
+        }
+
+        if(unreadMsgs.length>0){
+          socketUtil.readEdMsg(unreadMsgs);
+        }
+
         setState(() {
-          _messages = data[widget._id].msgs;
-          _contacts = data;
+          _messages;
+          _contacts;
         });
       }
     });
@@ -69,7 +85,7 @@ class _chatPageState extends State<chatPage> {
         title: (_contacts[widget._id]!=null?Text(_contacts[widget._id].user.nickname+'('+(_contacts[widget._id].online==1?'在线':'离线')+')'):null),
       ),
       body: Container(
-        margin: EdgeInsets.only(bottom: bottomSheetHigh),
+        margin: EdgeInsets.only(bottom: bottomSheetHigh-10),
         child: RefreshIndicator(
           onRefresh: _initData,
           child: ListView.builder(
@@ -79,7 +95,7 @@ class _chatPageState extends State<chatPage> {
 
               Message msg = _messages[index];
 
-              return msg.from==Application.user.id?(DialogueRight(_contacts[msg.from].user.nickname, msg.msg)):(DialogueLeft(_contacts[msg.from].user.nickname, msg.msg));
+              return msg.from==Application.user.id?(DialogueRight(Application.user.nickname, msg.msg)):(DialogueLeft(_contacts[msg.from].user.nickname, msg.msg));
             },
           ),
         ),

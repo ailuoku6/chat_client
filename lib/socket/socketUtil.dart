@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_client/Utils/ToastUtil.dart';
 import 'package:chat_client/application.dart';
 import 'package:chat_client/model/Contact.dart';
 import 'package:chat_client/model/Message.dart';
@@ -66,12 +67,8 @@ class socketUtil{
 
       Application.contacts = contacts;
 
-//      Application.subject.add(Application.contacts);
       Application.reflashSubject();
 
-//      setState(() {
-//        contacts;
-//      });
     });
 
     getSocket().on('offline', (data){
@@ -83,11 +80,8 @@ class socketUtil{
       }
 
       Application.contacts = contacts;
-//      Application.subject.add(Application.contacts);
       Application.reflashSubject();
-//      setState(() {
-//        contacts;
-//      });
+
     });
 
     getSocket().on('receiveMsg', (data){
@@ -100,10 +94,7 @@ class socketUtil{
       }
       Application.contacts = contacts;
       Application.reflashSubject();
-//      Application.subject.add(Application.contacts);
-//      setState(() {
-//        contacts;
-//      });
+
     });
 
     getSocket().on('getMsgResult', (data){
@@ -127,24 +118,39 @@ class socketUtil{
 
         Application.contacts = contacts;
         Application.reflashSubject();
-//        Application.subject.add(Application.contacts);
 
-//        setState(() {
-//          contacts;
-//        });
       }
     });
 
     getSocket().on("loginResult", (data){
-//      if(data['result']){
-//        //登陆成功
-//        print("登录成功");
-//        NavigatorUtil.goHomePage(context);
-//      }else{
-//        //登录失败
-//        NavigatorUtil.goLoginPage(context,clearStack: true,username: Application.user.username,password: Application.user.password);
-//      }
       Application.subject1.add(data);
+    });
+
+    getSocket().on('sendFeedback', (data){
+
+      print("sendFeedback");
+      print(data);
+
+      String key = data['key'];
+
+      List<String> comf = key.split('-');
+
+      int id = int.parse(comf[0]);
+
+      int index = int.parse(comf[1]);
+      Map<int,Contact> contacts = Application.contacts;
+      if(data['result']){
+        contacts[id].msgs[index].id = data['id'];//返回数据库中相应msg的id,这样做是方便标记发送状态
+      }else{
+        if(data['msg']!=null){
+          ToastUtil.ShowShortToast(data['msg']);
+        }
+        //把消息在列表中标记为发送失败
+        contacts[id].msgs[index].id = -2;
+      }
+
+      Application.contacts = contacts;
+      Application.reflashSubject();
     });
   }
 
