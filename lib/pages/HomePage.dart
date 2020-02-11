@@ -6,6 +6,8 @@ import 'package:chat_client/socket/socketUtil.dart';
 import 'package:chat_client/widget/Contact.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_client/model/Message.dart';
+import 'package:chat_client/Screen/ContactScreen.dart';
+import 'package:chat_client/Screen/MyScreen.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -17,106 +19,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   int _currentIndex = 0;
   final _selectColor = Colors.blue;
   final _unselectColor = Colors.black45;
+  PageController _pageController = new PageController();
 
-  //List<Contact> contacts = new List();
-  Map<int,Contact> contacts = new Map();
+  var pages = <Widget>[
+    ContactScreen(),
+    MyScreen(),
+  ];
+
+  var titles = <String>[
+    '消息',
+    '我的'
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Application.subject.stream.listen((data){
-      if(mounted){
-        setState(() {
-          contacts = data;
-        });
-      }
+  }
+
+  void _pageChange(int index) {
+    setState(() {
+      _currentIndex = index;
     });
-    _setSocket();
-  }
-
-  void _setSocket(){
-//    socketUtil.getSocket().on('getOnlineUserResult', (data){
-//      print(data['onlineUsers'].runtimeType);
-//      List<dynamic> l = data['onlineUsers'];
-//      List<User> onlineUsers = l.map((dynamic item)=>User.fromJson(item)).toList();
-//      for(User user in onlineUsers){
-//        if(contacts[user.id]==null){
-//          contacts[user.id] = Contact(user,1);
-//        }
-//      }
-//      setState(() {
-//        contacts;
-//      });
-//      print(onlineUsers);
-//      print(contacts.values.toList());
-//    });
-
-//    socketUtil.getSocket().on('online', (data){
-//      //{user:{id:aUser.id,username:aUser.username,nickname:aUser.nickname}}
-//      User user = User.fromJson(data['user']);
-//      if(contacts[user.id]==null){
-//        contacts[user.id] = Contact(user, 1);
-//      }else{
-//        contacts[user.id].online = 1;
-//      }
-//
-//      setState(() {
-//        contacts;
-//      });
-//    });
-
-//    socketUtil.getSocket().on('offline', (data){
-//      if(contacts[data['id']]!=null){
-//        contacts[data['id']].online = 0;
-//      }
-//      setState(() {
-//        contacts;
-//      });
-//    });
-
-//    socketUtil.getSocket().on('receiveMsg', (data){
-//      print(data);
-//      Message msg = Message.fromJson(data['msg']);
-//      print(msg);
-//      if(contacts[msg.from]!=null){
-//        contacts[msg.from].msgs.add(msg);
-//      }
-//      setState(() {
-//        contacts;
-//      });
-//    });
-
-//    socketUtil.getSocket().on('getMsgResult', (data){
-//      if(data['result']){
-//        List<dynamic> l = data['from'];
-//        List<User> fromUsers = l.map((dynamic item)=>User.fromJson(item)).toList();
-//        for(User user in fromUsers){
-//          if(contacts[user.id]==null){
-//            contacts[user.id] = Contact(user, 0);
-//          }
-//        }
-//
-//        List<dynamic> l1 = data['msgs'];
-//        List<Message> msgs = l1.map((dynamic item)=>Message.fromJson(item)).toList();
-//        for(Message msg in msgs){
-//          if(contacts[msg.from]!=null){
-//            contacts[msg.from].msgs.add(msg);
-//          }
-//        }
-//
-//        setState(() {
-//          contacts;
-//        });
-//      }
-//    });
-
-    socketUtil.getOnlineUser();
-    socketUtil.getUnreadMsg();
-  }
-
-  Future<void> _initData() async {
-
   }
 
   @override
@@ -124,32 +48,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('消息'),
+        title: Text(titles[_currentIndex]),
       ),
-      body: Container(
-        child: RefreshIndicator(
-          onRefresh: _initData,
-          child: ListView.builder(
-            itemCount: contacts.length,
-            itemBuilder: (BuildContext context,int index){
-
-              Contact contact = contacts.values.toList()[index];
-
-              Message lastMessage = contact.msgs.length>0 ? contact.msgs.last:null;
-
-              return conTactItem(
-                name: contact.user.username,
-                lastMsg: lastMessage!=null?lastMessage.msg:'',
-                date: lastMessage!=null?lastMessage.time.toIso8601String():'',
-                online: contact.online,
-                onPress: (){
-                  NavigatorUtil.goChatPage(context,id: contact.user.id);
-                },
-              );
-            },
-          ),
-        ),
+      body: PageView.builder(
+        onPageChanged: _pageChange,
+        controller: _pageController,
+        itemCount: pages.length,
+        itemBuilder: (BuildContext context,int index){
+          return pages.elementAt(index);
+        },
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -163,6 +72,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         ],
         currentIndex: _currentIndex,
         onTap: (int index){
+//          _pageController.animateToPage(index);
+          _pageController.jumpToPage(index);
           setState(() {
             _currentIndex = index;
           });

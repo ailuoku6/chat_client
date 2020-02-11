@@ -160,8 +160,8 @@ class socketUtil{
     //触发online事件，返回数据{user:{id:aUser.id,username:aUser.username,nickname:aUser.nickname}}
   }
 
-  static void signup(String username,String password){
-    getSocket().emit('signUp',{'username':username,'password':password});
+  static void signup(String username,String password,String nickname){
+    getSocket().emit('signUp',{'username':username,'password':password,'nickname':nickname});
     //触发loginResult事件，返回数据{result:false,msg:'注册失败，用户名已被占用'} 或 {result:true,user:aUser}
   }
 
