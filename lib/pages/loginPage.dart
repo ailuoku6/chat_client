@@ -6,6 +6,7 @@ import 'package:chat_client/application.dart';
 import 'package:chat_client/model/User.dart';
 import 'package:chat_client/route/mNavigator.dart';
 import 'package:chat_client/socket/socketUtil.dart';
+import 'package:chat_client/widget/MyBackground.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget{
@@ -199,15 +200,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
           backgroundColor:new Color(0x00000000),
           elevation:0
       ),
-      body: Container(
-        margin: EdgeInsets.only(left: 20,right: 20,top: 80),
-        child: AnimatedCrossFade(
-          duration: const Duration(milliseconds: 300),
-          firstChild: _loginWidget,
-          secondChild: _signUpWidget,
-          crossFadeState: _isLogin?CrossFadeState.showFirst:CrossFadeState.showSecond,
-        ),
-      ),
+      body: Stack(
+        children: <Widget>[
+          MyBackground(heightPercentange: 0.4),
+          Container(
+            margin: EdgeInsets.only(left: 20,right: 20,top: 80),
+            child: AnimatedCrossFade(
+              duration: const Duration(milliseconds: 300),
+              firstChild: _loginWidget,
+              secondChild: _signUpWidget,
+              crossFadeState: _isLogin?CrossFadeState.showFirst:CrossFadeState.showSecond,
+            ),
+          ),
+        ],
+      )
     );
   }
 
