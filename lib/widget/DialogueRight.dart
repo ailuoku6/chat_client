@@ -5,7 +5,8 @@ class DialogueRight extends StatelessWidget {
   final String nickname;
   final String msg;
   final Color avatarColor = Colors.blueAccent;
-  DialogueRight(this.nickname, this.msg);
+  final int status;
+  DialogueRight(this.nickname, this.msg,this.status);
 
   @override
   Widget build(BuildContext context) {

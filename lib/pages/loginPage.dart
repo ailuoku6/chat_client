@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
                 fontWeight: FontWeight.w500
             ),),
             TextField(
-              controller: _unameController_sign,
+              controller: _unameController,
               decoration: InputDecoration(
                   labelText: "用户名",
 //                        hintText: "用户名或邮箱",
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
             ),
 
             TextField(
-              controller: _pwdController_sign,
+              controller: _pwdController,
               decoration: InputDecoration(
                   labelText: "密码",
 //                        hintText: "您的登录密码",
@@ -164,10 +164,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
       if(mounted&&context!=null){
         if(data['result']){
           //登陆成功
-          Application.user = User.fromJson(data['user']);
+
           ToastUtil.ShowShortToast('登录成功');
           data['user']['password'] = _pwdController.text;
-
+          Application.user = User.fromJson(data['user']);
           print(Application.user);
           SharedPreferencesUtil.setData(jsonEncode(Application.user.toJson()), 'user');
           NavigatorUtil.goHomePage(context);
@@ -182,12 +182,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin{
   }
 
   _handleLogin() async{
+    if(_unameController.text.isEmpty||_pwdController.text.isEmpty){
+      ToastUtil.ShowShortToast('请将信息填写完整');
+      return;
+    }
     //socketUtil.getSocket().emit('login',{'username':_unameController.text,'password':_pwdController.text});
     socketUtil.login(_unameController.text, _pwdController.text);
   }
 
   _handleSignUp() async{
-    socketUtil.signup(_unameController_sign.text, _pwdController_sign.text,_nickController_sign.text);
+    if(_unameController.text.isEmpty||_pwdController.text.isEmpty||_nickController_sign.text.isEmpty){
+      ToastUtil.ShowShortToast('请将信息填写完整');
+      return;
+    }
+    socketUtil.signup(_unameController.text, _pwdController.text,_nickController_sign.text);
   }
 
   @override

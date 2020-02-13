@@ -14,6 +14,7 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
 
   Map<int,Contact> contacts = new Map();
+  List<Contact> contactList = new List();
 
   @override
   void initState() {
@@ -21,9 +22,13 @@ class _ContactScreenState extends State<ContactScreen> {
     super.initState();
     Application.subject.stream.listen((data){
       if(mounted){
-        setState(() {
-          contacts = data;
+        contacts = data;
+        contactList = contacts.values.toList();
+        //排序
+        contactList.sort((left,right){
+          return left.online.compareTo(right.online);
         });
+        setState(() {});
       }
     });
     _setSocket();
@@ -45,10 +50,11 @@ class _ContactScreenState extends State<ContactScreen> {
       child: RefreshIndicator(
         onRefresh: _initData,
         child: ListView.builder(
-          itemCount: contacts.length,
+          itemCount: contactList.length,
           itemBuilder: (BuildContext context,int index){
 
-            Contact contact = contacts.values.toList()[index];
+//            Contact contact = contacts.values.toList()[index];
+            Contact contact = contactList[index];
 
             Message lastMessage = contact.msgs.length>0 ? contact.msgs.last:null;
 

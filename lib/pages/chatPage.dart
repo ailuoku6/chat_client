@@ -95,7 +95,7 @@ class _chatPageState extends State<chatPage> {
 
               Message msg = _messages[index];
 
-              return msg.from==Application.user.id?(DialogueRight(Application.user.nickname, msg.msg)):(DialogueLeft(_contacts[msg.from].user.nickname, msg.msg));
+              return msg.from==Application.user.id?(DialogueRight(Application.user.nickname, msg.msg,msg.id)):(DialogueLeft(_contacts[msg.from].user.nickname, msg.msg,msg.id));
             },
           ),
         ),

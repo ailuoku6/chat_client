@@ -9,6 +9,7 @@ import 'package:chat_client/model/User.dart';
 
 
 final String ADDRESS = Platform.isAndroid?'http://10.0.2.2:3000':'http://127.0.0.1:3000';
+//final String ADDRESS = 'http://47.106.131.84:3000';
 
 class socketUtil{
   static IO.Socket _socket = IO.io(ADDRESS,<String,dynamic>{
@@ -24,8 +25,15 @@ class socketUtil{
         'extraHeaders': {'foo': 'bar'},
         'forceNew': true,
       });
+      initSocket();
     }
     return _socket;
+  }
+
+  static void reconnect(){
+    if(getSocket().disconnected&&(!getSocket().connected)){
+      getSocket().connect();
+    }
   }
 
   static void initSocket(){
@@ -140,7 +148,7 @@ class socketUtil{
       int index = int.parse(comf[1]);
       Map<int,Contact> contacts = Application.contacts;
       if(data['result']){
-        contacts[id].msgs[index].id = data['id'];//返回数据库中相应msg的id,这样做是方便标记发送状态
+        contacts[id].msgs[index].id = data['id'];//返回数据库中相应msg的id,这样做是方便标记发送状态,发送中为-1，发送失败为-2，成功则大于0
       }else{
         if(data['msg']!=null){
           ToastUtil.ShowShortToast(data['msg']);
@@ -155,12 +163,14 @@ class socketUtil{
   }
 
   static void login(String username,String password){
+    reconnect();
     getSocket().emit('login',{'username':username,'password':password});
     //触发loginResult事件，返回数据{result:false,msg:'注册失败，用户名已被占用'} 或 {result:true,user:aUser}
     //触发online事件，返回数据{user:{id:aUser.id,username:aUser.username,nickname:aUser.nickname}}
   }
 
   static void signup(String username,String password,String nickname){
+    reconnect();
     getSocket().emit('signUp',{'username':username,'password':password,'nickname':nickname});
     //触发loginResult事件，返回数据{result:false,msg:'注册失败，用户名已被占用'} 或 {result:true,user:aUser}
   }
@@ -176,7 +186,10 @@ class socketUtil{
   }
 
   static void offline(){
-    getSocket().emit('disconnect');
+//    print("用户下线");
+    if(getSocket().connected||(!getSocket().disconnected)){
+      getSocket().disconnect();
+    }
     //触发offline事件，返回数据{id:id},当id为自己时，说明自己离线，并退出应用，否则更新好友列表
   }
 
