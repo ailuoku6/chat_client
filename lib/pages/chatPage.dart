@@ -46,6 +46,8 @@ class _chatPageState extends State<chatPage> {
         }
 
         if(unreadMsgs.length>0){
+          print('标为已读');
+          print(unreadMsgs);
           socketUtil.readEdMsg(unreadMsgs);
         }
 

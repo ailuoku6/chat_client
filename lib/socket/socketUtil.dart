@@ -8,8 +8,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:chat_client/model/User.dart';
 
 
-final String ADDRESS = Platform.isAndroid?'http://10.0.2.2:3000':'http://127.0.0.1:3000';
-//final String ADDRESS = 'http://47.106.131.84:3000';
+//final String ADDRESS = Platform.isAndroid?'http://10.0.2.2:3000':'http://127.0.0.1:3000';
+final String ADDRESS = 'http://47.106.131.84:3000';
 
 class socketUtil{
   static IO.Socket _socket = IO.io(ADDRESS,<String,dynamic>{
@@ -119,7 +119,9 @@ class socketUtil{
         List<dynamic> l1 = data['msgs'];
         List<Message> msgs = l1.map((dynamic item)=>Message.fromJson(item)).toList();
         for(Message msg in msgs){
-          if(contacts[msg.from]!=null){
+          if(contacts[msg.from]!=null&&(!contacts[msg.from].msgs.contains(msg))){//没有相应Id时添加
+//            List<Message> messages = contacts[msg.from].msgs;
+//            messages.contains(msg);
             contacts[msg.from].msgs.add(msg);
           }
         }

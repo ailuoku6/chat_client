@@ -15,25 +15,17 @@ class Message{
   factory Message.fromJson(Map<String,dynamic> json) => _$MessageFromJson(json);
   Map<String,dynamic> toJson() => _$MessageToJson(this);
 
-//  Map toMap(){
-//    Map<String,dynamic> data = new Map();
-//
-//    data['id'] = id;
-//    data['from'] = from;
-//    data['to'] = to;
-//    data['msg'] = msg;
-//    data['isread'] = isread;
-//    data['time'] = time;
-//
-//    return data;
-//  }
-
-@override
+  @override
   String toString() {
     // TODO: implement toString
-    return 'from:'+from.toString()+"say:"+msg+"date:"+time.toIso8601String();
+    return 'id:'+id.toString()+'from:'+from.toString()+"say:"+msg+"date:"+time.toIso8601String();
   }
 
-
+  @override
+  bool operator ==(other) {
+    // TODO: implement ==
+    //return super == other;
+    return this.id==other.id;
+  }
 
 }

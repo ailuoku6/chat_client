@@ -56,7 +56,7 @@ packages:
       name: build_config
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
-    version: "0.4.1+1"
+    version: "0.4.2"
   build_daemon:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: build_runner_core
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   built_collection:
     dependency: transitive
     description:
@@ -365,7 +365,7 @@ packages:
       name: pub_semver
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
-    version: "1.4.2"
+    version: "1.4.3"
   pubspec_parse:
     dependency: transitive
     description:
