@@ -97,7 +97,7 @@ class socketUtil{
       dynamic contacts = Application.contacts;
       Message msg = Message.fromJson(data['msg']);
       print(msg);
-      if(contacts[msg.from]!=null){
+      if(contacts[msg.from]!=null&&(!contacts[msg.from].msgs.contains(msg))){
         contacts[msg.from].msgs.add(msg);
       }
       Application.contacts = contacts;

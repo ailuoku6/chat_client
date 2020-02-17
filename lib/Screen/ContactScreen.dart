@@ -59,7 +59,7 @@ class _ContactScreenState extends State<ContactScreen> {
             Message lastMessage = contact.msgs.length>0 ? contact.msgs.last:null;
 
             return conTactItem(
-              name: contact.user.username,
+              name: contact.user.nickname,
               lastMsg: lastMessage!=null?lastMessage.msg:'',
               date: lastMessage!=null?lastMessage.time.toIso8601String():'',
               online: contact.online,

@@ -122,6 +122,7 @@ class _chatPageState extends State<chatPage> {
               Expanded(
                 flex: 3,
                 child: TextField(
+                  maxLines: 2,
                   controller: _textEditingController,
                   decoration: InputDecoration(
                     labelText: "",
