@@ -49,25 +49,29 @@ class _ContactScreenState extends State<ContactScreen> {
     return Container(
       child: RefreshIndicator(
         onRefresh: _initData,
-        child: ListView.builder(
-          itemCount: contactList.length,
-          itemBuilder: (BuildContext context,int index){
+        child: contactList.length==0?(
+            Text('无在线联系人或未读消息')
+        ):(
+            ListView.builder(
+              itemCount: contactList.length,
+              itemBuilder: (BuildContext context,int index){
 
 //            Contact contact = contacts.values.toList()[index];
-            Contact contact = contactList[index];
+                Contact contact = contactList[index];
 
-            Message lastMessage = contact.msgs.length>0 ? contact.msgs.last:null;
+                Message lastMessage = contact.msgs.length>0 ? contact.msgs.last:null;
 
-            return conTactItem(
-              name: contact.user.nickname,
-              lastMsg: lastMessage!=null?lastMessage.msg:'',
-              date: lastMessage!=null?lastMessage.time.toIso8601String():'',
-              online: contact.online,
-              onPress: (){
-                NavigatorUtil.goChatPage(context,id: contact.user.id);
+                return conTactItem(
+                  name: contact.user.nickname,
+                  lastMsg: lastMessage!=null?lastMessage.msg:'',
+                  date: lastMessage!=null?lastMessage.time.toIso8601String():'',
+                  online: contact.online,
+                  onPress: (){
+                    NavigatorUtil.goChatPage(context,id: contact.user.id);
+                  },
+                );
               },
-            );
-          },
+            )
         ),
       ),
     );
